@@ -1,18 +1,37 @@
 package com.example.codingexercise.model;
 
-import java.util.List;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+import java.util.Map;
+
+@Document(collection = "packages")
 public class ProductPackage {
+    @Id
     private String id;
     private String name;
     private String description;
-    private List<String> productIds;
+    private Map<String, Integer> productQuantities;
+    private String ownerUsername;
 
-    public ProductPackage(String id, String name, String description, List<String> productIds) {
+    public ProductPackage() {
+    }
+
+    public ProductPackage(String id, String name, String description, Map<String, Integer> productQuantities) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.productIds = productIds;
+        this.productQuantities = productQuantities;
+    }
+
+    public ProductPackage(String id, String name, String description, Map<String, Integer> productQuantities,
+            String ownerUsername) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.productQuantities = productQuantities;
+        this.ownerUsername = ownerUsername;
     }
 
     public String getId() {
@@ -39,11 +58,19 @@ public class ProductPackage {
         this.description = description;
     }
 
-    public List<String> getProductIds() {
-        return productIds;
+    public Map<String, Integer> getProductQuantities() {
+        return productQuantities;
     }
 
-    public void setProductIds(List<String> productIds) {
-        this.productIds = productIds;
+    public void setProductQuantities(Map<String, Integer> productQuantities) {
+        this.productQuantities = productQuantities;
+    }
+
+    public String getOwnerUsername() {
+        return ownerUsername;
+    }
+
+    public void setOwnerUsername(String ownerUsername) {
+        this.ownerUsername = ownerUsername;
     }
 }
