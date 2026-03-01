@@ -3,7 +3,6 @@ package com.example.codingexercise.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
 import java.util.Map;
 
 @Document(collection = "packages")

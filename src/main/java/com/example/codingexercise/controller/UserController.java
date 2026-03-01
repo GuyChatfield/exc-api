@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -32,7 +33,7 @@ public class UserController {
         }
 
         user.get().setLocale(localeUpdateRequest.getLocale());
-        userRepository.save(user.get());
+        userRepository.save(Objects.requireNonNull(user.get()));
         return ResponseEntity.noContent().build();
     }
 }

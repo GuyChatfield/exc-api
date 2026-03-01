@@ -3,11 +3,13 @@ package com.example.codingexercise.service;
 import com.example.codingexercise.model.Product;
 import com.example.codingexercise.repository.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Order(2)
 public class ProductSeedService implements CommandLineRunner {
 
     private final ProductRepository productRepository;
@@ -30,7 +32,7 @@ public class ProductSeedService implements CommandLineRunner {
                 new Product("8anPsR2jbfNW", "Silver Coin", 50));
 
         for (Product product : seedProducts) {
-            if (!productRepository.existsById(product.getId())) {
+            if (!productRepository.existsById(java.util.Objects.requireNonNull(product.getId()))) {
                 productRepository.save(product);
             }
         }

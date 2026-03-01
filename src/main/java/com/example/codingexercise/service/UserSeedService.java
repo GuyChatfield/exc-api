@@ -3,9 +3,13 @@ package com.example.codingexercise.service;
 import com.example.codingexercise.model.User;
 import com.example.codingexercise.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
+@Order(1)
 public class UserSeedService implements CommandLineRunner {
 
     private final UserRepository userRepository;
@@ -16,18 +20,20 @@ public class UserSeedService implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        User demoUser = userRepository.findByUsername("demo-user").orElse(null);
+        List<User> seedUsers = List.of(
+                new User("user-1", "demo-user", "demo.user@example.com", "password123", "en-US"),
+                new User("user-2", "tuser", "tuser@example.com", "tpass", "en-US"));
 
-        if (demoUser == null) {
-            userRepository.save(new User("user-1", "demo-user", "demo.user@example.com", "password123", "en-US"));
-            return;
-        }
-
-        if (demoUser.getPassword() == null || demoUser.getPassword().isBlank() || demoUser.getLocale() == null
-                || demoUser.getLocale().isBlank()) {
-            demoUser.setPassword("password123");
-            demoUser.setLocale("en-US");
-            userRepository.save(demoUser);
+        for (User user : seedUsers) {
+            User existing = userRepository.findByUsername(user.getUsername()).orElse(null);
+            if (existing == null) {
+                userRepository.save(user);
+            } else if (existing.getPassword() == null || existing.getPassword().isBlank()
+                    || existing.getLocale() == null || existing.getLocale().isBlank()) {
+                existing.setPassword(user.getPassword());
+                existing.setLocale(user.getLocale());
+                userRepository.save(existing);
+            }
         }
     }
 }

@@ -69,13 +69,13 @@ Or using the wrapper:
 
 ### Seed Data
 
-The `/mongo-init` folder contains seed scripts that run on first container start:
+Seed data is automatically created when the Spring Boot application starts via `CommandLineRunner` services:
 
-| File                  | Description                               |
-| --------------------- | ----------------------------------------- |
-| `01-seed-user.js`     | Creates demo users (`demo-user`, `tuser`) |
-| `02-seed-products.js` | Creates sample products with USD prices   |
-| `03-seed-packages.js` | Creates sample packages for `tuser`       |
+| Service              | Description                               |
+| -------------------- | ----------------------------------------- |
+| `UserSeedService`    | Creates demo users (`demo-user`, `tuser`) |
+| `ProductSeedService` | Creates sample products with USD prices   |
+| `PackageSeedService` | Creates sample packages for `tuser`       |
 
 **Default Users:**
 | Username | Password |
@@ -83,11 +83,7 @@ The `/mongo-init` folder contains seed scripts that run on first container start
 | `demo-user` | `password123` |
 | `tuser` | `tpass` |
 
-To reset seed data:
-
-```bash
-docker compose down -v && docker compose up -d
-```
+Seed services run on every application startup but only insert data if it doesn't already exist (idempotent).
 
 ## API Endpoints
 
